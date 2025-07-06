@@ -1,0 +1,210 @@
+*{
+    margin: 0%;
+    box-sizing: border-box;
+}
+/*-------MENU----------*/
+#menu {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  /*background-color: #ffe6ee; */
+
+  position: relative;
+  z-index: 3;
+}
+
+.menu-izq a {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.menu-der a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+/*--------Bienvenida-------*/
+#bienvenida{
+    display: flex;
+    position: relative; /*?*/
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    z-index: 1;
+    background-color: #ffe6ee;
+    margin-top: -80px;
+    flex-wrap: wrap;
+}
+
+#imagen-bienvenida{
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 2;
+}
+
+#imagen-bienvenida img{
+    width: 30%;
+    height: auto;
+    transform: translateX(-40%);
+}
+
+
+#texto-bienvenida{
+  flex: 1;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #000;
+  text-align: left;
+  padding-left: 2rem;
+  z-index: 2;
+}
+
+/*-------Novedades-------*/
+#novedades {
+  background-color: #DE2D64;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.carousel-inner img {
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+  content: "";
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
+/*---------Donas----------*/
+#seccion-donas{
+    background-color: #ffe6ee;
+}
+
+#favoritas {
+  background-color: #ffe6ee;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+#favoritas h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.grid-donas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  justify-content: center;
+  max-width: 900px; /* Ajusta si tus cards son más anchas */
+  margin: 0 auto 40px auto;
+}
+
+.dona-card {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.dona-card:hover {
+  transform: scale(1.03);
+}
+
+.dona-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.dona-card p {
+  margin-top: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.ver-donas-container {
+  text-align: center;
+}
+
+.btn-donas {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #f72c73;
+  color: white;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-donas:hover {
+  background-color: #d8185b;
+}
+
+/*---------Footer----------*/
+footer {
+    background-color: #d8185b;
+}
+
+/*Tablet*/
+@media (max-width: 768px){
+    #menu{
+        display: block;
+        flex-direction: center;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    #bienvenida {
+        flex-direction: column;
+        height: auto;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    #imagen-bienvenida img {
+        height: 180px;
+        transform: none;
+    }
+
+    #texto-bienvenida {
+        margin-left: 0;
+        margin-top: 10px;
+        font-size: 2rem;
+    }
+
+    .grid-donas {
+    grid-template-columns: 1fr;
+  }
+}
