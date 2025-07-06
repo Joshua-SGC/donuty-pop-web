@@ -2,6 +2,15 @@
     margin: 0%;
     box-sizing: border-box;
 }
+
+body{
+  background-color: #ffe6ee;
+}
+/*.contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px; /* Para que no se pegue a los bordes en móviles 
+}*/
 /*-------MENU----------*/
 #menu {
   width: 100%;
@@ -72,6 +81,25 @@
   background-color: #DE2D64;
   padding: 40px 0;
   text-align: center;
+}
+
+.titulo-novedades {
+  background-color: #f72c73; /* Rosa fuerte */
+  border: 6px solid #fff;     /* Contorno blanco */
+  border-radius: 40px;
+  padding: 10px 50px;
+  display: inline-block;
+  margin: 40px auto;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+.titulo-novedades h2 {
+  color: #fff;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.8rem;
+  margin: 0;
 }
 
 .carousel-inner img {
@@ -156,6 +184,7 @@
 }
 
 .btn-donas {
+  margin: 20px;
   display: inline-block;
   padding: 15px 30px;
   background-color: #f72c73;
@@ -174,6 +203,25 @@
 /*---------Footer----------*/
 footer {
     background-color: #d8185b;
+    height: 150px;
+    display: flex;
+}
+
+.footer-izq,
+.footer-der {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.footer-izq{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.footer-der{
+  display: flex;
+  justify-content: flex-end;
 }
 
 /*Tablet*/
