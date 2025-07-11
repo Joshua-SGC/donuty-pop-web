@@ -4,7 +4,13 @@
 }
 
 body{
-  background-color: #ffe6ee;
+  /*background-color: #ffe6ee;*/
+  background-image: url(../assets/fondos/segundofondo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; 
+  background-attachment: fixed;
+  /*padding: 60px 20px;*/
 }
 .contenedor {
   max-width: 1200px;
@@ -28,16 +34,11 @@ body{
   padding: 10px 20px;
 }
 
-.menu-izq a {
-  font-weight: bold;
-  font-size: 1.5rem;
-  text-decoration: none;
-  color: #000;
 
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
+.menu-izq img {
+  max-width: 260px; /* Ajusta a lo que te funcione visualmente */
+  height: auto;
+  object-fit: contain;
 }
 
 .menu-der a {
@@ -57,9 +58,10 @@ body{
     justify-content: center;
     height: 80vh;
     z-index: 1;
-    background-color: #ffe6ee;
+    /*background-color: #ffe6ee;*/
     margin-top: -80px;
     flex-wrap: wrap;
+    min-height: 80vh;
 
     padding: 00px 20px;
     gap: 20px;
@@ -163,19 +165,27 @@ body{
 
 /*---------Donas----------*/
 #seccion-donas{
-    background-color: #ffe6ee;
+  background-color: #ffe6ee;
+  background-image: url(../assets/fondos/segundofondo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; 
+  background-attachment: fixed;
+  padding: 60px 20px;
 }
 
-#favoritas {
+.titulo {
   background-color: #ffe6ee;
   padding: 50px 20px;
-  text-align: center;
+  justify-content: center;
+  display: flex;
 }
 
-#favoritas h2 {
+ h2 {
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .grid-donas {
@@ -189,10 +199,16 @@ body{
 
 .dona-card {
   background-color: #fff;
-  border-radius: 20px;
+  border-radius: 0px;
   padding: 20px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .dona-card:hover {
@@ -234,80 +250,63 @@ body{
   background-color: #d8185b;
 }
 
+
+
+.img-fondo {
+  background-color: #f8e6f5; /* Fondo blanco tipo marco */
+  border-radius: 0px;
+  padding: 10px; /* Hace de borde/marco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px; /* o el alto que tú quieras para el marco */
+}
+
+.img-fondo img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 /*---------Footer----------*/
 footer {
     background-color: #d8185b;
     padding: 30px 20px;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-.footer-izq,
-.footer-der {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.footer-redes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-.footer-izq img{
-  width: 24px;
-  margin-top: 10px;
+.footer-redes img {
+    width: 30px;
 }
 
-.footer-der{
-  display: flex;
-  justify-content: flex-end;
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
 }
 
-.footer-der a{
-  color: #fff;
-  text-decoration: none;
-  margin-top: 8px;
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.9rem;
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1rem;
 }
 
-.footer-der a img {
-  width: 20px;
-  margin-right: 5px;
+.footer-links a img {
+    width: 20px;
 }
 
-/* ========== Modal Popup ========== */
-#terminosModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
 
-.modal-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  text-align: left;
-}
-
-.modal-content button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #d8185b;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
 
 /*Tablet*/
 @media (max-width: 768px){
