@@ -12,7 +12,7 @@
           <div class="contenedor">
 
             <div class="menu-izq">
-                <a href="../public/index.html">
+                <a href="../../index.html">
                     <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo">
                 </a>
             </div>
@@ -60,28 +60,8 @@
               </div>
             <p>Dona de Fresa con Chispas</p>
             <p class="cantidad-donas">Cantidad: 0</p>
-
             </div>
-            <div class="dona-card">
-              <div class="img-fondo">
-                <img src="../assets/donas/glaseada.png" alt="Dona Glaseada">
-              </div>
-            <p>Dona Glaseada</p>
-            <p class="cantidad-donas">Cantidad: 0</p>
-
-            </div>
-            <div class="dona-card">
-              <div class="img-fondo">
-                <img src="../assets/donas/fresa-chispas.png" alt="Dona de Chocolate con Chispas">
-              </div>
-            <p>Dona de Chocolate con Chispas</p>
-            <p class="cantidad-donas">Cantidad: 0</p>
-
-            </div>
-            <div class="dona-card">
-            <img src="../assets/Iconos/Proximamente.png" alt="Próximamente">
-            <p><strong>PRÓXIMAMENTE</strong><br><em>¡Espérala!</em></p>
-            </div>
+            
         </div>
 
         <div class="ver-donas-container">
@@ -126,6 +106,43 @@
           </a>
       </div>
   </footer>
+<script>
+fetch("../../Back-end/api_donas.php")
+  .then(res => res.json())
+  .then(donas => {
+    const grid = document.querySelector(".grid-donas");
+    grid.innerHTML = ""; // Limpia las donas estáticas
+
+    donas.forEach(dona => {
+      const card = document.createElement("div");
+      card.classList.add("dona-card");
+
+      card.innerHTML = `
+        <div class="img-fondo">
+          <img src="${dona.imagen}" alt="${dona.tipo}">
+        </div>
+        <p>${dona.tipo}</p>
+        <p class="cantidad-donas">Cantidad: 0</p>
+      `;
+
+      grid.appendChild(card);
+    });
+  })
+  .catch(error => console.error("Error al cargar donas:", error));
+
+
+  const carrito = JSON.parse(localStorage.getItem("carritoDonas")) || [];
+const resumen = document.querySelector(".pedido-resumen");
+let totalPedido = 0;
+let resumenHTML = "";
+
+carrito.forEach(item => {
+  resumenHTML += `<p>${item.tipo} (x${item.cantidad})</p>`;
+  totalPedido += item.precio * item.cantidad;
+});
+
+resumen.innerHTML = resumenHTML + `<p class="total">Total: $${totalPedido.toFixed(2)}</p>`;
+</script>
 
     <script src="../js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

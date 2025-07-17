@@ -1,171 +1,119 @@
 /* === 📦 VARIABLES GLOBALES === */
-let cantidad = 1;
-const preciosPorDona = {
-  "Dona de Chocolate": 15.00,
-  "Dona de Con Azúcar": 14.00,
-  "Dona de Fresa con Chispas": 17.00,
-  "Dona Glaseada": 16.00,
-  "Dona de Chocolate con Chispas": 18.00
-};
-
-let carrito = JSON.parse(localStorage.getItem("carritoDonas")) || {};
-
-
+const grid = document.querySelector(".grid-donas");
 const popup = document.getElementById("popup-dona");
 const popupImg = document.getElementById("popup-img");
-const cantidadSpan = document.getElementById("cantidad");
+const cantidadTexto = document.getElementById("cantidad");
 const precioTotal = document.getElementById("precio-total");
+const btnRestar = document.getElementById("btn-restar");
+const btnSumar = document.getElementById("btn-sumar");
+const btnCancelar = document.getElementById("btn-cancelar");
+const btnAceptar = document.getElementById("btn-aceptar");
+const carritoTotal = document.getElementById("carrito-total");
+const btnPedido = document.querySelector(".btn-donas-compacto");
 
-/* === 🟨 ABRIR POP-UP DE DONA === */
-document.querySelectorAll(".dona-card .img-fondo img").forEach((img) => {
-img.addEventListener("click", () => {
-  const src = img.getAttribute("src");
-  popupImg.setAttribute("src", src);
+let donaSeleccionada = null;
+let cantidad = 0;
+let carritoResumen = [];
 
-  const nombreDona = img.closest(".dona-card").querySelector("p").textContent;
-  const precioUnitario = preciosPorDona[nombreDona] || 15.00;
+/* === 🍩 CARGAR DONAS DESDE BACKEND === */
+fetch("../backend/api_donas.php")
+  .then(res => res.json())
+  .then(donas => {
+    grid.innerHTML = "";
+    donas.forEach(dona => {
+      const card = document.createElement("div");
+      card.classList.add("dona-card");
 
-  cantidad = 1;
-  cantidadSpan.textContent = cantidad;
-  precioTotal.textContent = (cantidad * precioUnitario).toFixed(2);
+      card.innerHTML = `
+        <div class="img-fondo">
+          <img src="${dona.imagen}" alt="${dona.tipo}">
+        </div>
+        <p class="nombre-dona">${dona.tipo}</p>
+        <p class="precio-dona">$${parseFloat(dona.precio).toFixed(2)}</p>
+        <p class="cantidad-donas">Cantidad: 0</p>
+      `;
 
-  popup.setAttribute("data-nombre", nombreDona);
-  popup.setAttribute("data-precio", precioUnitario);
+      card.addEventListener("click", () => {
+        donaSeleccionada = dona;
+        cantidad = 0;
+        popupImg.src = dona.imagen;
+        cantidadTexto.textContent = cantidad;
+        precioTotal.textContent = "0.00";
+        popup.style.display = "block";
+        card.classList.add("seleccionada");
+      });
 
-  popup.style.display = "flex";
-});
+      grid.appendChild(card);
+    });
+  })
+  .catch(error => console.error("Error al cargar donas:", error));
 
-});
-
-/* === ➕➖ CONTADOR DE DONAS === */
-document.getElementById("btn-sumar").addEventListener("click", () => {
+/* === ➕➖ CONTADOR POP-UP === */
+btnSumar.addEventListener("click", () => {
   cantidad++;
-  cantidadSpan.textContent = cantidad;
-  precioTotal.textContent = (cantidad * precioPorDona).toFixed(2);
+  cantidadTexto.textContent = cantidad;
+  precioTotal.textContent = (cantidad * parseFloat(donaSeleccionada.precio)).toFixed(2);
 });
 
-document.getElementById("btn-restar").addEventListener("click", () => {
-  if (cantidad > 1) {
+btnRestar.addEventListener("click", () => {
+  if (cantidad > 0) {
     cantidad--;
-    cantidadSpan.textContent = cantidad;
-    precioTotal.textContent = (cantidad * precioPorDona).toFixed(2);
+    cantidadTexto.textContent = cantidad;
+    precioTotal.textContent = (cantidad * parseFloat(donaSeleccionada.precio)).toFixed(2);
   }
 });
 
-/* === ❌ CANCELAR DONA === */
-document.getElementById("btn-cancelar").addEventListener("click", () => {
-  cerrarPopup();
+/* === ❌ CANCELAR SELECCIÓN === */
+btnCancelar.addEventListener("click", () => {
+  popup.style.display = "none";
 });
 
 /* === ✅ ACEPTAR DONA === */
-document.getElementById("btn-aceptar").addEventListener("click", () => {
-  const nombreDona = popup.getAttribute("data-nombre");
-  const precioUnitario = parseFloat(popup.getAttribute("data-precio"));
+btnAceptar.addEventListener("click", () => {
+  popup.style.display = "none";
 
+  const card = document.querySelector(".dona-card.seleccionada");
+  if (card) {
+    card.querySelector(".cantidad-donas").textContent = `Cantidad: ${cantidad}`;
+    card.classList.remove("seleccionada");
+  }
 
-if (nombreDona && cantidad > 0) {
-  carrito[nombreDona] = {
-    cantidad: cantidad,
-    total: cantidad * precioUnitario
-  };
+  if (cantidad > 0) {
+    const existente = carritoResumen.find(item => item.id === donaSeleccionada.id_donas);
+    if (existente) {
+      existente.cantidad += cantidad;
+    } else {
+      carritoResumen.push({
+        id: donaSeleccionada.id_donas,
+        tipo: donaSeleccionada.tipo,
+        imagen: donaSeleccionada.imagen,
+        precio: parseFloat(donaSeleccionada.precio),
+        cantidad: cantidad
+      });
+    }
+  }
 
-  localStorage.setItem("carritoDonas", JSON.stringify(carrito));
-  actualizarCantidadVisual(nombreDona, cantidad);
-}
-
-
-  cerrarPopup();
+  actualizarTotalCarrito();
 });
 
-/* ---CARRITO */
+/* === 🛒 ACTUALIZAR TOTAL DEL CARRITO === */
 function actualizarTotalCarrito() {
-  let total = 0;
-  for (let dona in carrito) {
-    total += carrito[dona].total;
-  }
-
-  const totalElement = document.getElementById("carrito-total");
-  if (totalElement) {
-    totalElement.textContent = `$${total.toFixed(2)}`;
-  }
+  const total = carritoResumen.reduce((acc, dona) => acc + dona.precio * dona.cantidad, 0);
+  carritoTotal.textContent = `$${total.toFixed(2)}`;
 }
 
-
-/* === 🔧 FUNCIONES AUXILIARES === */
-function obtenerNombreDesdeCard(srcImg) {
-  const targetCard = Array.from(document.querySelectorAll(".dona-card")).find(card =>
-    card.querySelector("img")?.getAttribute("src") === srcImg
-  );
-
-  return targetCard ? targetCard.querySelector("p").textContent : null;
-}
-
-function actualizarCantidadVisual(nombre, cantidad) {
-  document.querySelectorAll(".dona-card").forEach(card => {
-    const nombreDona = card.querySelector("p").textContent;
-    if (nombreDona === nombre) {
-      const cantidadTexto = card.querySelector(".cantidad-donas");
-      if (cantidadTexto) {
-        cantidadTexto.textContent = `Cantidad: ${cantidad}`;
-      }
-    }
-  });
-}
-
-function cerrarPopup() {
-  popup.style.display = "none";
-}
-
-/* === 📜 TÉRMINOS Y CONDICIONES === */
-function abrirPopup() {
-  document.getElementById('popup-overlay').style.display = 'block';
-  document.getElementById('popup-terminos').style.display = 'block';
-}
-
-function cerrarPopupTerminos() {
-  document.getElementById('popup-overlay').style.display = 'none';
-  document.getElementById('popup-terminos').style.display = 'none';
-}
-
-/* === 💬 CONFIRMACIÓN DEL PEDIDO === */
-function abrirConfirmacion() {
-  document.getElementById('popup-overlay-pedido').style.display = 'block';
-  document.getElementById('popup-confirmar-pedido').style.display = 'block';
-}
-
-function cerrarConfirmacion() {
-  document.getElementById('popup-overlay-pedido').style.display = 'none';
-  document.getElementById('popup-confirmar-pedido').style.display = 'none';
-}
-
-function confirmarPedido() {
-  alert("¡Pedido confirmado! 🎉");
-  cerrarConfirmacion();
-  localStorage.removeItem("carritoDonas");
-}
-
-/* === 📦 MOSTRAR RESUMEN EN PEDIDO.HTML === */
-if (document.querySelector(".pedido-resumen")) {
-  let resumenHTML = "";
-  let total = 0;
-
-  for (let dona in carrito) {
-    const item = carrito[dona];
-    resumenHTML += `<p>${dona} (x${item.cantidad})</p>`;
-    total += item.total;
-  }
-
-  document.querySelector(".pedido-resumen").innerHTML = resumenHTML + `<p class="total">Total: $${total.toFixed(2)}</p>`;
-}
-
-/*VERIFICAR LOG IN */
+/* === 🚀 REALIZAR PEDIDO === */
+btnPedido.addEventListener("click", () => {
+  localStorage.setItem("carritoDonas", JSON.stringify(carritoResumen));
+  window.location.href = "../pages/pedido.html";
+});
 
 function verificarLogin() {
   const usuario = document.getElementById("usuario").value.trim();
   const contrasena = document.getElementById("contrasena").value.trim();
 
   if (usuario === "admin@correo.com" && contrasena === "123567") {
-    window.location.href = "../pages/menu-seleccion.html";
+    window.location.href = "../pages/menu-seleccion.html"; // o donde está tu panel
   } else {
     mostrarPopupError();
   }
@@ -178,5 +126,3 @@ function mostrarPopupError() {
 function cerrarPopupError() {
   document.getElementById("popup-login-error").style.display = "none";
 }
-
-

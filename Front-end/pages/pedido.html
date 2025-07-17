@@ -12,7 +12,7 @@
   <section id="menu">
     <div class="contenedor">
       <div class="menu-izq">
-        <a href="index.html">
+        <a href="../../index.html">
           <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo">
         </a>
       </div>
@@ -37,7 +37,10 @@
         <p class="total">Cantidad: $0.00</p>
       </div>
 
-      <form class="pedido-formulario">
+      <form class="pedido-formulario" action="../../Back-end/pedido/insertar_pedido.php" method="POST">
+          <input type="hidden" name="productos" id="productos-json">
+          <input type="hidden" name="precio_total" id="precio-total-form">
+
         <div class="form-group">
           <label for="nombre">Nombre</label>
           <input type="text" id="nombre" name="nombre" required>
@@ -109,5 +112,23 @@
 
   <script src="../js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const carrito = JSON.parse(localStorage.getItem("carritoDonas")) || [];
+    const resumen = document.querySelector(".pedido-resumen");
+    let totalPedido = 0;
+    let resumenHTML = "";
+
+    carrito.forEach(item => {
+      resumenHTML += `<p>${item.tipo} (x${item.cantidad})</p>`;
+      totalPedido += item.precio * item.cantidad;
+    });
+
+    resumen.innerHTML = resumenHTML + `<p class="total">Total: $${totalPedido.toFixed(2)}</p>`;
+
+    document.getElementById("productos-json").value = JSON.stringify(carrito);
+    document.getElementById("precio-total-form").value = totalPedido.toFixed(2);
+
+  </script>
+
 </body>
 </html>

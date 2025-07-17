@@ -18,11 +18,18 @@ echo "Dona: $id_donas<br>";
 echo "Sucursal: $id_sucursal<br>";
 
 
+
     $sql = "INSERT INTO ordena (
         id_empleado, id_cliente, id_donas, id_sucursal, medio_entrega, tipo_pago, cantidad, precio_total, fecha_hora
     ) VALUES (
         '$id_empleado', '$id_cliente', '$id_donas', '$id_sucursal', '$medio_entrega', '$tipo_pago', '$cantidad', '$precio_total', '$fecha_hora'
     )";
+
+    $productos = json_decode($_POST['productos'], true);
+foreach ($productos as $dona) {
+  // Aquí puedes insertar cada dona en la tabla de pedidos o guardar el resumen
+}
+
 
     if ($conn->query($sql) === TRUE) {
         header("Location: consultar_pedidos.php");

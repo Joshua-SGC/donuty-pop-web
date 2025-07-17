@@ -92,7 +92,7 @@
   <!-- 🔄 Bloque 1: Registrar pedido -->
   <section class="formulario-pedido">
     <h2>Registrar Pedido</h2>
-    <form action="../backend/pedido/insertar_pedido.php" method="POST">
+    <form action="../../Back-end/pedido/insertar_pedido.php" method="POST">
       <label>Empleado:</label>
       <select name="id_empleado" required>
         <!-- Opciones generadas desde PHP -->
@@ -161,48 +161,57 @@
   </section>
 
   <!-- 📄 Bloque 2: Tabla de pedidos -->
-  <section>
-    <h2>Pedidos Registrados</h2>
-    <table class="tabla-pedidos">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Cliente</th>
-          <th>Empleado</th>
-          <th>Dona</th>
-          <th>Sucursal</th>
-          <th>Cantidad</th>
-          <th>Entrega</th>
-          <th>Pago</th>
-          <th>Total</th>
-          <th>Fecha</th>
-          <th>Editar</th>
-          <th>Eliminar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $pedidos = $conn->query("SELECT * FROM pedido"); // este query idealmente haría JOIN para mostrar nombres
-        while($row = $pedidos->fetch_assoc()):
-        ?>
-        <tr>
-          <td><?= $row['id_pedido'] ?></td>
-          <td><?= $row['id_cliente'] ?></td>
-          <td><?= $row['id_empleado'] ?></td>
-          <td><?= $row['id_donas'] ?></td>
-          <td><?= $row['id_sucursal'] ?></td>
-          <td><?= $row['cantidad'] ?></td>
-          <td><?= $row['medio_entrega'] ?></td>
-          <td><?= $row['tipo_pago'] ?></td>
-          <td>$<?= $row['precio_total'] ?></td>
-          <td><?= $row['fecha_hora'] ?></td>
-          <td><a href="../backend/pedido/editar_pedido.php?id=<?= $row['id_pedido'] ?>"><img src="../assets/Iconos/editar.png" alt="Editar"></a></td>
-          <td><a href="../backend/pedido/eliminar_pedido.php?id=<?= $row['id_pedido'] ?>" onclick="return confirm('¿Eliminar este pedido?')"><img src="../assets/Iconos/eliminar.png" alt="Eliminar"></a></td>
-        </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
-  </section>
+<section>
+  <h2>Pedidos Registrados</h2>
+  <table class="tabla-pedidos">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Empleado</th>
+        <th>Dona</th>
+        <th>Sucursal</th>
+        <th>Cantidad</th>
+        <th>Entrega</th>
+        <th>Pago</th>
+        <th>Total</th>
+        <th>Fecha</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        include("../backend/conexion.php");
+        $sql = "SELECT o.*, c.nombre_completo, e.nombre_empleado, d.tipo, s.direccion
+                FROM ordena o
+                JOIN cliente c ON o.id_cliente = c.id_cliente
+                JOIN empleado e ON o.id_empleado = e.id_empleado
+                JOIN donas d ON o.id_donas = d.id_donas
+                JOIN sucursal s ON o.id_sucursal = s.id_sucursal";
+
+        $resultado = $conn->query($sql);
+        while($row = $resultado->fetch_assoc()):
+      ?>
+      <tr>
+        <td><?= $row['id_orden'] ?></td>
+        <td><?= $row['nombre_completo'] ?></td>
+        <td><?= $row['nombre_empleado'] ?></td>
+        <td><?= $row['tipo'] ?></td>
+        <td><?= $row['direccion'] ?></td>
+        <td><?= $row['cantidad'] ?></td>
+        <td><?= ucfirst($row['medio_entrega']) ?></td>
+        <td><?= ucfirst($row['tipo_pago']) ?></td>
+        <td>$<?= number_format($row['precio_total'], 2) ?></td>
+        <td><?= $row['fecha_hora'] ?></td>
+        <td><a href="editar_pedido.php?id=<?= $row['id_orden'] ?>"><img src="../assets/Iconos/editar.png" alt="Editar"></a></td>
+        <td><a href="eliminar_pedido.php?id=<?= $row['id_orden'] ?>" onclick="return confirm('¿Eliminar este pedido?')"><img src="../assets/Iconos/eliminar.png" alt="Eliminar"></a></td>
+      </tr>
+      <?php endwhile; ?>
+    </tbody>
+  </table>
+</section>
+
 
 </body>
 </html>

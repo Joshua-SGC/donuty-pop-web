@@ -18,6 +18,10 @@ CREATE TABLE `dona` (
   `tipo` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+ALTER TABLE dona
+ADD COLUMN imagen VARCHAR(255),
+ADD COLUMN precio DECIMAL(6,2);
+
 CREATE TABLE `empleado` (
   `id_empleado` int(11) NOT NULL,
   `nombre_empleado` varchar(100) DEFAULT NULL,
