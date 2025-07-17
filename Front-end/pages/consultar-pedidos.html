@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consultar Pedidos | Donuty Pop</title>
+  <link rel="stylesheet" href="../css/estilo.css" />
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      padding: 40px;
+      background-color: #fff7fb;
+    }
+    h2 {
+      color: #d8185b;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .formulario-pedido {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .formulario-pedido label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .formulario-pedido input,
+    .formulario-pedido select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 2px solid #f1b9d5;
+      border-radius: 12px;
+    }
+    .formulario-pedido button {
+      margin-top: 20px;
+      background-color: #f72c73;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tabla-pedidos {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tabla-pedidos th, .tabla-pedidos td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    .tabla-pedidos th {
+      background-color: #f72c73;
+      color: white;
+    }
+    .tabla-pedidos td a img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<!-- Header Donuty Pop -->
+  <section id="menu">
+    <div class="contenedor">
+      <div class="menu-izq">
+        <a href="../public/index.html">
+          <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo" />
+        </a>
+      </div>
+      <div class="menu-der">
+        <a href="../public/index.html">Regresar</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 🔄 Bloque 1: Registrar pedido -->
+  <section class="formulario-pedido">
+    <h2>Registrar Pedido</h2>
+    <form action="../backend/pedido/insertar_pedido.php" method="POST">
+      <label>Empleado:</label>
+      <select name="id_empleado" required>
+        <!-- Opciones generadas desde PHP -->
+        <?php
+        include("../backend/conexion.php");
+        $empleados = $conn->query("SELECT id_empleado, nombre_empleado FROM empleado");
+        while ($emp = $empleados->fetch_assoc()):
+        ?>
+          <option value="<?= $emp['id_empleado'] ?>"><?= $emp['nombre_empleado'] ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <label>Cliente:</label>
+      <select name="id_cliente" required>
+        <?php
+        $clientes = $conn->query("SELECT id_cliente, nombre_completo FROM cliente");
+        while ($cli = $clientes->fetch_assoc()):
+        ?>
+          <option value="<?= $cli['id_cliente'] ?>"><?= $cli['nombre_completo'] ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <label>Dona:</label>
+      <select name="id_donas" required>
+        <?php
+        $donas = $conn->query("SELECT id_donas, tipo FROM donas");
+        while ($don = $donas->fetch_assoc()):
+        ?>
+          <option value="<?= $don['id_donas'] ?>"><?= $don['tipo'] ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <label>Sucursal:</label>
+      <select name="id_sucursal" required>
+        <?php
+        $sucursales = $conn->query("SELECT id_sucursal, direccion FROM sucursal");
+        while ($suc = $sucursales->fetch_assoc()):
+        ?>
+          <option value="<?= $suc['id_sucursal'] ?>"><?= $suc['direccion'] ?></option>
+        <?php endwhile; ?>
+      </select>
+
+      <label>Medio de Entrega:</label>
+      <select name="medio_entrega" required>
+        <option value="tienda">Tienda</option>
+        <option value="domicilio">Domicilio</option>
+      </select>
+
+      <label>Tipo de Pago:</label>
+      <select name="tipo_pago" required>
+        <option value="efectivo">Efectivo</option>
+        <option value="tarjeta">Tarjeta</option>
+      </select>
+
+      <label>Cantidad:</label>
+      <input type="number" name="cantidad" min="1" required>
+
+      <label>Precio total (MXN):</label>
+      <input type="number" name="precio_total" min="0" step="0.01" required>
+
+      <label>Fecha y hora:</label>
+      <input type="datetime-local" name="fecha_hora" required>
+
+      <button type="submit">Registrar Pedido</button>
+    </form>
+  </section>
+
+  <!-- 📄 Bloque 2: Tabla de pedidos -->
+  <section>
+    <h2>Pedidos Registrados</h2>
+    <table class="tabla-pedidos">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Empleado</th>
+          <th>Dona</th>
+          <th>Sucursal</th>
+          <th>Cantidad</th>
+          <th>Entrega</th>
+          <th>Pago</th>
+          <th>Total</th>
+          <th>Fecha</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $pedidos = $conn->query("SELECT * FROM pedido"); // este query idealmente haría JOIN para mostrar nombres
+        while($row = $pedidos->fetch_assoc()):
+        ?>
+        <tr>
+          <td><?= $row['id_pedido'] ?></td>
+          <td><?= $row['id_cliente'] ?></td>
+          <td><?= $row['id_empleado'] ?></td>
+          <td><?= $row['id_donas'] ?></td>
+          <td><?= $row['id_sucursal'] ?></td>
+          <td><?= $row['cantidad'] ?></td>
+          <td><?= $row['medio_entrega'] ?></td>
+          <td><?= $row['tipo_pago'] ?></td>
+          <td>$<?= $row['precio_total'] ?></td>
+          <td><?= $row['fecha_hora'] ?></td>
+          <td><a href="../backend/pedido/editar_pedido.php?id=<?= $row['id_pedido'] ?>"><img src="../assets/Iconos/editar.png" alt="Editar"></a></td>
+          <td><a href="../backend/pedido/eliminar_pedido.php?id=<?= $row['id_pedido'] ?>" onclick="return confirm('¿Eliminar este pedido?')"><img src="../assets/Iconos/eliminar.png" alt="Eliminar"></a></td>
+        </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </section>
+
+</body>
+</html>

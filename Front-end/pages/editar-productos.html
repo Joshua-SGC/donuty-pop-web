@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Productos | Donuty Pop</title>
+  <link rel="stylesheet" href="../css/estilo.css" />
+  <style>
+    /* Te incluyo el CSS básico directamente aquí por ahora */
+    body {
+      font-family: 'Nunito', sans-serif;
+      padding: 40px;
+      background-color: #fff7fb;
+    }
+    h2 {
+      color: #d8185b;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .formulario-dona {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .formulario-dona label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .formulario-dona input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 2px solid #f1b9d5;
+      border-radius: 12px;
+    }
+    .formulario-dona button {
+      background-color: #f72c73;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tabla-donas {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tabla-donas th, .tabla-donas td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    .tabla-donas th {
+      background-color: #f72c73;
+      color: white;
+    }
+    .tabla-donas td a img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <section id="menu">
+    <div class="contenedor">
+      <div class="menu-izq">
+        <a href="../public/index.html">
+          <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo" />
+        </a>
+      </div>
+      <div class="menu-der">
+        <a href="../public/index.html">Regresar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🧁 Bloque 1: Registrar nueva dona -->
+  <section class="formulario-dona">
+    <h2>Registrar Nueva Dona</h2>
+    <form action="../../Back-end/dona/insertar_dona.php" method="POST">
+      <label for="tipo">Tipo de Dona:</label>
+      <input type="text" name="tipo" id="tipo" required />
+      <button type="submit">Registrar</button>
+    </form>
+  </section>
+
+  <!-- 🍩 Bloque 2: Mostrar donas registradas -->
+  <section>
+    <h2>Donas Registradas</h2>
+
+    <!-- ⚠️ Este contenedor puede llenarse con fetch si luego transforman consultar_dona.php a JSON -->
+    <table class="tabla-donas">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aquí puedes hacer que PHP imprima las filas -->
+        <?php
+          include("../backend/conexion.php");
+          $sql = "SELECT * FROM donas";
+          $resultado = $conn->query($sql);
+          while($row = $resultado->fetch_assoc()):
+        ?>
+        <tr>
+          <td><?= $row['id_donas'] ?></td>
+          <td><?= $row['tipo'] ?></td>
+          <td>
+            <a href="../backend/dona/editar_dona.php?id=<?= $row['id_donas'] ?>">
+              <img src="../assets/Iconos/editar.png" alt="Editar">
+            </a>
+          </td>
+          <td>
+            <a href="../backend/dona/eliminar_dona.php?id=<?= $row['id_donas'] ?>" onclick="return confirm('¿Seguro que deseas eliminar esta dona?')">
+              <img src="../assets/Iconos/eliminar.png" alt="Eliminar">
+            </a>
+          </td>
+        </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </section>
+
+</body>
+</html>

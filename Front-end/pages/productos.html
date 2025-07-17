@@ -21,7 +21,7 @@
                 <a href="../pages/novedades.html">Novedades</a>
                 <a href="../pages/sucursales.html">Sucursales</a>
                 <a href="../pages/productos.html">Donas</a>
-                <a href="#pedido">Pedido</a>
+                <a href="../pages/pedido.html">Pedido</a>
             </div>
           </div>
         </section>
@@ -29,7 +29,14 @@
 <!-- ===== DONAS ===== -->
     <section id="seccion-donas" class="donas">
       <div class="contenedor">
-        <h2 class="titulo">¡Las favoritas!</h2>
+        <div class="carrito-panel">
+  <a href="#" onclick="abrirResumenCarrito()">
+    <img src="../assets/Iconos/carrito.png" alt="Carrito de compras" class="icono-carrito">
+  </a>
+  <span id="carrito-total" class="carrito-total">$0.00</span>
+</div>
+
+        <h2 class="titulo">Elije las que más te gusten</h2>
         <div class="grid-donas">
             <div class="dona-card">
               <div class="img-fondo">
@@ -78,7 +85,7 @@
         </div>
 
         <div class="ver-donas-container">
-            <a href="#donas" class="btn-donas">Realizar Pedido </a>
+            <a href="#donas" class="btn-donas-compacto">Realizar Pedido </a>
         </div>
       </div>
     </section>
@@ -114,7 +121,7 @@
 
       <div class="footer-links">
           <a id="btn-terminos" class="footer-btn">Términos y condiciones</a>
-          <a href="pagina-desarrollo.html" class="footer-btn">
+          <a href="../pages/login.html" class="footer-btn">
               <img src="../assets/Iconos/casco.png" alt="desarrollador" class="icono-casco">
           </a>
       </div>

@@ -10,6 +10,7 @@ body{
   background-position: center;
   background-repeat: no-repeat; 
   background-attachment: fixed;
+  font-family: 'Nunito', sans-serif;
   /*padding: 60px 20px;*/
 }
 .contenedor {
@@ -44,7 +45,7 @@ body{
 .menu-der a {
   margin-left: 20px;
   text-decoration: none;
-  color: #000;
+  color: #DE2D64;
   font-weight: bold;
 
   font-size: 1rem;
@@ -86,10 +87,10 @@ body{
 
 
 #texto-bienvenida{
+  font-family: 'Playwrite ES', serif;
   flex: 1 1 300px;
-  font-size: 3rem;
-  font-weight: bold;
-  color: #000;
+  font-size: 5rem;
+  color: #DE2D64;
   text-align: left;
   padding-left: 1rem;
   /*z-index: 2;*/
@@ -120,13 +121,14 @@ body{
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
-
 }
 
-.titulo-novedades h2 {
+
+.titulo-pagina-novedades{
+  color:#fff;
+  font-family: 'Montserrat Alternates', sans-serif;
   color: #fff;
   font-weight: 900;
-  font-style: italic;
   font-size: 1.8rem;
   margin: 0;
 }
@@ -177,6 +179,7 @@ body{
 .titulo {
   padding: 50px 20px;
   justify-content: center;
+  font-family: 'Montserrat Alternates', sans-serif;
   display: flex;
 }
 
@@ -233,22 +236,41 @@ body{
 }
 
 .btn-donas {
-  margin: 20px;
-  display: inline-block;
-  padding: 15px 30px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  padding: 14px 0;
   background-color: #f72c73;
   color: white;
-  border-radius: 12px;
-  font-size: 1.2rem;
   font-weight: bold;
-  text-decoration: none;
+  border: none; /* ¡Quitamos el borde negro! */
+  border-radius: 12px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Suave sombra para que se eleve un poco */
 }
 
 .btn-donas:hover {
   background-color: #d8185b;
 }
 
+.btn-donas-compacto {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #f72c73;
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.btn-donas-compacto:hover {
+  background-color: #d8185b;
+}
 
 
 .img-fondo {
@@ -304,6 +326,58 @@ footer {
 .footer-links a img {
     width: 20px;
 }
+/*------POPUP*/
+/* Fondo oscuro blur */
+#popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  z-index: 20;
+  display: none;
+}
+
+/* Contenedor del popup */
+#popup-terminos {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 90%;
+  z-index: 30;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  display: none;
+}
+
+/* Contenido con scroll */
+.popup-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+  padding-right: 10px;
+}
+
+/* Botón de cerrar */
+#popup-terminos button {
+  margin-top: 20px;
+  background-color: #f72c73;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#popup-terminos button:hover {
+  background-color: #d8185b;
+}
+
 
 /*-----------PRODUCTOS------------------*/
 .cantidad-donas {
@@ -379,6 +453,23 @@ footer {
   color: white;
 }
 
+.carrito-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icono-carrito {
+  width: 32px;
+  height: 32px;
+}
+
+.carrito-total {
+  font-weight: bold;
+  color: #d8185b;
+  font-size: 1rem;
+}
+
 
 /*-----------SUCURSALES-----------------*/
 .contenedor {
@@ -386,15 +477,32 @@ footer {
     margin: 0 auto;
     padding: 40px 20px;
 }
-.titulo-seccion {
-    background-color: #f72c73;
-    color: white;
-    padding: 20px 20px;
-    border-radius: 40px;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 900;
-    margin: 40px auto;
+
+#sucursales {
+  min-height: 80vh;
+}
+
+.titulo-seccion-sucursales {
+  background-color: #f72c73; /* Rosa fuerte */
+  border: 6px solid #fff; 
+
+  border-radius: 40px;
+  padding: 10px 50px;
+  display: inline-block;
+  /*margin: 40px auto;*/
+  text-align: center;
+  position: relative;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.titulo-seccion-sucursales h2{
+  color: #fff;
+
+
 }
 .sucursal {
     background: white;
@@ -480,7 +588,225 @@ footer {
   max-width: 500px;
   flex: 1 1 300px;
 }
+/*--------LogIn-------------*/
 
+#admin-login {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.admin-titulo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #d8185b;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.admin-form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.admin-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-form label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #d8185b;
+}
+
+.admin-form input {
+  padding: 12px;
+  font-size: 1rem;
+  border: 2px solid #f3a3c3;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.admin-form input:focus {
+  border-color: #f72c73;
+  outline: none;
+}
+
+/* ==== Sección Pedido ==== */
+#seccion-pedido {
+  background-color: #ffe6ee;
+  background-image: url(../assets/fondos/segundofondo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 60px 20px;
+}
+
+.pedido-titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #d8185b;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pedido-resumen {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.pedido-resumen .promo {
+  font-style: italic;
+  color: #f72c73;
+}
+
+.pedido-resumen .total {
+  font-weight: bold;
+}
+
+.pedido-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pedido-formulario .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.pedido-formulario label {
+  font-weight: bold;
+  color: #d8185b;
+  margin-bottom: 8px;
+}
+
+.pedido-formulario input,
+.pedido-formulario select,
+.pedido-formulario textarea {
+  padding: 12px;
+  border: 2px solid #f3a3c3;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.pedido-formulario input:focus,
+.pedido-formulario textarea:focus,
+.pedido-formulario select:focus {
+  border-color: #f72c73;
+  outline: none;
+}
+
+
+/* ==== POP-UP CONFIRMAR PEDIDO ==== */
+#popup-overlay-pedido {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: none;
+}
+
+#popup-confirmar-pedido {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  z-index: 200;
+  display: none;
+}
+
+.popup-contenido-pedido h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #d8185b;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.popup-scroll-pedido {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 10px;
+}
+
+.popup-scroll-pedido p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.popup-botones {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.popup-botones .btn-donas.volver {
+  background-color: #ccc;
+  color: #333;
+}
+
+.popup-botones .btn-donas.volver:hover {
+  background-color: #bbb;
+}
+
+.popup-botones .btn-donas.confirmar {
+  background-color: #f72c73;
+  color: white;
+}
+
+.popup-botones .btn-donas.confirmar:hover {
+  background-color: #d8185b;
+}
+/*-------ADMINISTRADOR----------*/
+
+.popup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.popup-contenido {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
 
 
 /*--------RESPONSIVE---------*/
