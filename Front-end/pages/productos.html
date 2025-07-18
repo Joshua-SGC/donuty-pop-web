@@ -4,19 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/estilo.css">
-    <title>Document</title>
+    <title>Donas - Productos</title>
+    <style>
+        .popup-cont {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 0, 15, 0.3); /* fondo oscuro semitransparente */
+  backdrop-filter: blur(4px); /* desenfoque del fondo */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-contenido {
+  background-color: #fff7fb;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  animation: aparecer 0.3s ease-out;
+}
+
+.popup-contenido h3 {
+  margin-bottom: 15px;
+  color: #d8185b;
+}
+
+.popup img {
+  max-width: 80%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.contador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.contador button {
+  background-color: #f72c73;
+  color: white;
+  font-size: 1.4rem;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.popup-botones button {
+  background-color: #f72c73;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-botones button:hover {
+  background-color: #d8185b;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+    </style>
 </head>
 <body>
     <header>
         <section id="menu">
           <div class="contenedor">
-
             <div class="menu-izq">
                 <a href="../../index.html">
                     <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo">
                 </a>
             </div>
-
             <div class="menu-der">
                 <a href="../pages/novedades.html">Novedades</a>
                 <a href="../pages/sucursales.html">Sucursales</a>
@@ -26,125 +107,186 @@
           </div>
         </section>
 
-<!-- ===== DONAS ===== -->
     <section id="seccion-donas" class="donas">
       <div class="contenedor">
         <div class="carrito-panel">
-  <a href="#" onclick="abrirResumenCarrito()">
-    <img src="../assets/Iconos/carrito.png" alt="Carrito de compras" class="icono-carrito">
-  </a>
-  <span id="carrito-total" class="carrito-total">$0.00</span>
-</div>
+            <a href="#" onclick="abrirResumenCarrito()">
+                <img src="../assets/Iconos/carrito-de-compras.png" alt="Carrito de compras" class="icono-carrito">
+            </a>
+            <span id="carrito-total" class="carrito-total">$0.00</span>
+        </div>
 
         <h2 class="titulo">Elije las que más te gusten</h2>
         <div class="grid-donas">
-            <div class="dona-card">
-              <div class="img-fondo">
-                <img src="../assets/donas/chocolate.png" alt="Dona de Chocolate">
-              </div>
-            <p>Dona de Chocolate</p>
-            <p class="cantidad-donas">Cantidad: 0</p>
-
-            </div>
-            <div class="dona-card">
-              <div class="img-fondo">
-                <img src="../assets/donas/azucar-canela.png" alt="Dona de Con Azúcar"> 
-              </div>
-            <p>Dona de Con Azúcar</p>
-            <p class="cantidad-donas">Cantidad: 0</p>
-
-            </div>
-            <div class="dona-card">
-              <div class="img-fondo">
-                <img src="../assets/donas/fresa-chispas.png" alt="Dona de Fresa con Chispas">
-              </div>
-            <p>Dona de Fresa con Chispas</p>
-            <p class="cantidad-donas">Cantidad: 0</p>
-            </div>
-            
+            <!-- Aquí se cargan dinámicamente las donas -->
         </div>
 
         <div class="ver-donas-container">
-            <a href="#donas" class="btn-donas-compacto">Realizar Pedido </a>
+            <a href="../pages/pedido.html" class="btn-donas-compacto">Realizar Pedido</a>
         </div>
       </div>
     </section>
-  </div>
 
-  <div id="popup-dona" class="popup">
-    <div class="popup-contenido">
-      <h3>¿Cuántas vas a querer?</h3>
-      <img src="" alt="Dona seleccionada" id="popup-img">
-      <div class="contador">
-        <button id="btn-restar">−</button>
-        <span id="cantidad">0</span>
-        <button id="btn-sumar">+</button>
-      </div>
-      <p>Total: $<span id="precio-total">0.00</span></p>
-      <div class="popup-botones">
-        <button id="btn-cancelar">Cancelar</button>
-        <button id="btn-aceptar">Aceptar</button>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-  <footer>
-      <div class="footer-redes">
-          <a href="https://facebook.com" target="_blank">
-              <img src="../assets/Iconos/facebook-new.png" alt="facebook-icon" class="icono-red">
-          </a>
-      </div>
-
-      <div class="footer-links">
-          <a id="btn-terminos" class="footer-btn">Términos y condiciones</a>
-          <a href="../pages/login.html" class="footer-btn">
-              <img src="../assets/Iconos/casco.png" alt="desarrollador" class="icono-casco">
-          </a>
-      </div>
-  </footer>
-<script>
-fetch("../../Back-end/api_donas.php")
-  .then(res => res.json())
-  .then(donas => {
-    const grid = document.querySelector(".grid-donas");
-    grid.innerHTML = ""; // Limpia las donas estáticas
-
-    donas.forEach(dona => {
-      const card = document.createElement("div");
-      card.classList.add("dona-card");
-
-      card.innerHTML = `
-        <div class="img-fondo">
-          <img src="${dona.imagen}" alt="${dona.tipo}">
+    <div id="popup-dona" class="popup-cont">
+        <div class="popup-contenido">
+            <h3>¿Cuántas vas a querer?</h3>
+            <img src="" alt="Dona seleccionada" id="popup-img">
+            <div class="contador">
+                <button id="btn-restar">−</button>
+                <span id="cantidad">0</span>
+                <button id="btn-sumar">+</button>
+            </div>
+            <p>Total: $<span id="precio-total">0.00</span></p>
+            <div class="popup-botones">
+                <button id="btn-cancelar">Cancelar</button>
+                <button id="btn-aceptar">Aceptar</button>
+            </div>
         </div>
-        <p>${dona.tipo}</p>
-        <p class="cantidad-donas">Cantidad: 0</p>
-      `;
+    </div>
 
-      grid.appendChild(card);
+    <footer>
+        <div class="footer-redes">
+            <a href="https://facebook.com" target="_blank">
+                <img src="../assets/Iconos/facebook-new.png" alt="facebook-icon" class="icono-red">
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a id="btn-terminos" class="footer-btn">Términos y condiciones</a>
+            <a href="../pages/login.html" class="footer-btn">
+                <img src="../assets/Iconos/casco.png" alt="desarrollador" class="icono-casco">
+            </a>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.querySelector(".grid-donas");
+  const carritoTotal = document.getElementById("carrito-total");
+  const popup = document.getElementById("popup-dona");
+  const popupImg = document.getElementById("popup-img");
+  const cantidadSpan = document.getElementById("cantidad");
+  const precioTotal = document.getElementById("precio-total");
+  const btnSumar = document.getElementById("btn-sumar");
+  const btnRestar = document.getElementById("btn-restar");
+  const btnCancelar = document.getElementById("btn-cancelar");
+  const btnAceptar = document.getElementById("btn-aceptar");
+
+  let donaSeleccionada = null;
+  let cantidadSeleccionada = 0;
+
+  const carrito = JSON.parse(sessionStorage.getItem("carritoDonas")) || [];
+
+  const actualizarTotalCarrito = () => {
+    const total = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
+    carritoTotal.textContent = "$" + total.toFixed(2);
+  };
+
+  actualizarTotalCarrito();
+
+  fetch("../../Back-end/dona/api_donas.php")
+    .then(res => res.json())
+    .then(donas => {
+      grid.innerHTML = "";
+
+      donas.forEach(dona => {
+        const card = document.createElement("div");
+        card.classList.add("dona-card");
+        card.dataset.nombre = dona.nombre;
+        card.dataset.precio = dona.precio;
+        card.dataset.imagen = dona.imagen;
+
+        const cantidadEnCarrito = carrito.find(item => item.nombre === dona.nombre);
+
+        card.innerHTML = `
+          <div class="img-fondo">
+            <img src="${dona.imagen}" alt="${dona.nombre}">
+          </div>
+          <p>${dona.nombre}</p>
+          <p>$${dona.precio}</p>
+          <p class="cantidad-donas">Cantidad: ${cantidadEnCarrito?.cantidad || 0}</p>
+        `;
+
+        card.addEventListener("click", () => {
+          donaSeleccionada = {
+            nombre: dona.nombre,
+            precio: parseFloat(dona.precio),
+            imagen: dona.imagen
+          };
+
+          const enCarrito = carrito.find(item => item.nombre === donaSeleccionada.nombre);
+          cantidadSeleccionada = enCarrito?.cantidad || 0;
+
+          popupImg.src = donaSeleccionada.imagen;
+          cantidadSpan.textContent = cantidadSeleccionada;
+          precioTotal.textContent = (donaSeleccionada.precio * cantidadSeleccionada).toFixed(2);
+          popup.style.display = "flex";
+        });
+
+        grid.appendChild(card);
+      });
+    })
+    .catch(error => console.error("Error al cargar donas:", error));
+
+  btnSumar.addEventListener("click", () => {
+    cantidadSeleccionada++;
+    cantidadSpan.textContent = cantidadSeleccionada;
+    precioTotal.textContent = (donaSeleccionada.precio * cantidadSeleccionada).toFixed(2);
+  });
+
+  btnRestar.addEventListener("click", () => {
+    if (cantidadSeleccionada > 0) {
+      cantidadSeleccionada--;
+      cantidadSpan.textContent = cantidadSeleccionada;
+      precioTotal.textContent = (donaSeleccionada.precio * cantidadSeleccionada).toFixed(2);
+    }
+  });
+
+  btnCancelar.addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+
+  btnAceptar.addEventListener("click", () => {
+    const index = carrito.findIndex(item => item.nombre === donaSeleccionada.nombre);
+
+    if (index >= 0) {
+      if (cantidadSeleccionada > 0) {
+        carrito[index].cantidad = cantidadSeleccionada;
+      } else {
+        carrito.splice(index, 1);
+      }
+    } else {
+      if (cantidadSeleccionada > 0) {
+        carrito.push({
+          nombre: donaSeleccionada.nombre,
+          precio: donaSeleccionada.precio,
+          cantidad: cantidadSeleccionada
+        });
+      }
+    }
+
+    sessionStorage.setItem("carritoDonas", JSON.stringify(carrito));
+    actualizarTotalCarrito();
+
+    document.querySelectorAll(".dona-card").forEach(card => {
+      if (card.dataset.nombre === donaSeleccionada.nombre) {
+        const cantidadTexto = card.querySelector(".cantidad-donas");
+        const carritoItem = carrito.find(item => item.nombre === donaSeleccionada.nombre);
+        cantidadTexto.textContent = "Cantidad: " + (carritoItem?.cantidad || 0);
+      }
     });
-  })
-  .catch(error => console.error("Error al cargar donas:", error));
 
+    popup.style.display = "none";
+  });
 
-  const carrito = JSON.parse(localStorage.getItem("carritoDonas")) || [];
-const resumen = document.querySelector(".pedido-resumen");
-let totalPedido = 0;
-let resumenHTML = "";
-
-carrito.forEach(item => {
-  resumenHTML += `<p>${item.tipo} (x${item.cantidad})</p>`;
-  totalPedido += item.precio * item.cantidad;
+  popup.addEventListener("click", e => {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
 });
-
-resumen.innerHTML = resumenHTML + `<p class="total">Total: $${totalPedido.toFixed(2)}</p>`;
 </script>
 
-    <script src="../js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

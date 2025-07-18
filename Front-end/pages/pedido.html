@@ -2,133 +2,222 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Donuty Pop | Pedido</title>
+  <title>Pedido</title>
   <link rel="stylesheet" href="../css/estilo.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Nunito', sans-serif;
+      background-color: #fff7fb;
+    }
+    h2 {
+      text-align: center;
+      color: #d8185b;
+      font-size: 2rem;
+      margin: 30px 0;
+    }
+    .contenedor {
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      flex: 1;
+    }
+    #resumen-donas {
+      background-color: #fff0f6;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      color: #d8185b;
+    }
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: bold;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      margin-top: 30px;
+      background-color: #f72c73;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background-color: #d8185b;
+    }
+
+    /* Popup estilo */
+    #gracias-popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(3px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #gracias-popup div {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      color: #f72c73;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    #cantidad-total,
+    #precio-total {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
-  <!-- Header -->
-  <section id="menu">
-    <div class="contenedor">
-      <div class="menu-izq">
-        <a href="../../index.html">
-          <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo">
-        </a>
-      </div>
-      <div class="menu-der">
-        <a href="../pages/novedades.html">Novedades</a>
-        <a href="../pages/sucursales.html">Sucursales</a>
-        <a href="../pages/productos.html">Donas</a>
-        <a href="../pages/pedido.html">Pedido</a>
-      </div>
-    </div>
+     <header>
+        <section id="menu">
+          <div class="contenedor">
+            <div class="menu-izq">
+                <a href="../../index.html">
+                    <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo">
+                </a>
+            </div>
+
+            <div class="menu-der">
+                <a href="../pages/novedades.html">Novedades</a>
+                <a href="../pages/sucursales.html">Sucursales</a>
+                <a href="../pages/productos.html">Donas</a>
+                <a href="../pages/pedido.html">Pedido</a>
+            </div>
+          </div>
+        </section>
+    </header>
+
+  <section class="contenedor">
+    <h2>Resumen del Pedido</h2>
+    <div id="resumen-donas"></div>
+    <p id="cantidad-total"></p>
+    <p id="precio-total"></p>
+
+    <form id="pedido-form">
+      <label for="cliente">Nombre completo:</label>
+      <input type="text" id="cliente" name="cliente" required>
+
+      <label for="sucursal">Sucursal:</label>
+      <select id="sucursal" name="sucursal" required>
+        <option disabled selected>Selecciona una sucursal</option>
+        <option value="Central Juárez">Central Juárez</option>
+        <option value="Donuty Norte">Donuty Norte</option>
+        <option value="Sucursal Zaragoza">Sucursal Zaragoza</option>
+      </select>
+
+      <button type="submit">Confirmar Pedido</button>
+    </form>
   </section>
-
-  <!-- Pedido -->
-  <section id="seccion-pedido">
-    <div class="contenedor">
-      <h2 class="pedido-titulo">Pedido</h2>
-
-      <div class="pedido-resumen">
-        <p>Dona Fresa Sin C (x1)</p>
-        <p>Dona Chocolate (x1)</p>
-        <p class="promo">Promo: NINGUNA</p>
-        <p class="total">Cantidad: $0.00</p>
-      </div>
-
-      <form class="pedido-formulario" action="../../Back-end/pedido/insertar_pedido.php" method="POST">
-          <input type="hidden" name="productos" id="productos-json">
-          <input type="hidden" name="precio_total" id="precio-total-form">
-
-        <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" required>
+<footer>
+        <div class="footer-redes">
+            <a href="https://facebook.com" target="_blank">
+                <img src="../assets/Iconos/facebook-new.png" alt="facebook-icon" class="icono-red">
+            </a>
         </div>
 
-        <div class="form-group">
-          <label for="apellido">Apellido</label>
-          <input type="text" id="apellido" name="apellido" required>
+        <div class="footer-links">
+            <a id="btn-terminos" class="footer-btn">Términos y condiciones</a>
+            <a href="../pages/login.html" class="footer-btn">
+                <img src="../assets/Iconos/casco.png" alt="desarrollador" class="icono-casco">
+            </a>
         </div>
-
-        <div class="form-group">
-          <label for="comentario">Comentario</label>
-          <textarea id="comentario" name="comentario" rows="3"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="sucursal">Sucursal</label>
-          <select id="sucursal" name="sucursal">
-            <option disabled selected>Selecciona una</option>
-            <option value="centro">Centro</option>
-            <option value="norte">Norte</option>
-            <option value="sur">Sur</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn-donas">Realizar Pedido ></button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-redes">
-      <a href="https://facebook.com" target="_blank">
-        <img src="../assets/Iconos/facebook-new.png" alt="facebook-icon">
-      </a>
-    </div>
-    <div class="footer-links">
-      <a href="#" onclick="abrirPopup()">Términos y condiciones</a>
-          <a href="../pages/login.html" class="footer-btn">
-              <img src="../assets/Iconos/casco.png" alt="desarrollador" class="icono-casco">
-          </a>
-    </div>
-  </footer>
-
-  <!--Pop-up-->
-  <div id="popup-overlay-pedido"></div>
-
-<div id="popup-confirmar-pedido">
-  <div class="popup-contenido-pedido">
-    <h2>Confirma tu información</h2>
-    <div class="popup-scroll-pedido">
-      <p><strong>Nombre:</strong> Juan</p>
-      <p><strong>Apellido:</strong> Pérez</p>
-      <p><strong>Comentario:</strong> Sin azúcar por favor</p>
-      <p><strong>Sucursal:</strong> Centro</p>
-      <p><strong>Pedido:</strong> Dona Fresa (x1), Dona Chocolate (x1)</p>
-      <p><strong>Promo:</strong> Ninguna</p>
-      <p><strong>Total:</strong> $38.00</p>
-    </div>
-    <div class="popup-botones">
-      <button onclick="cerrarConfirmacion()" class="btn-donas volver">Regresar</button>
-      <button type="button" onclick="abrirConfirmacion()" class="btn-donas">Realizar Pedido ></button>
-
-    </div>
+    </footer>
+  <!-- Popup de agradecimiento -->
+  <div id="gracias-popup">
+    <div>¡Gracias por su orden!</div>
   </div>
-</div>
 
-
-  <script src="../js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const carrito = JSON.parse(localStorage.getItem("carritoDonas")) || [];
-    const resumen = document.querySelector(".pedido-resumen");
-    let totalPedido = 0;
-    let resumenHTML = "";
+    document.addEventListener("DOMContentLoaded", () => {
+      const carrito = JSON.parse(sessionStorage.getItem("carritoDonas")) || [];
+      const resumenDiv = document.getElementById("resumen-donas");
+      const cantidadLabel = document.getElementById("cantidad-total");
+      const precioLabel = document.getElementById("precio-total");
 
-    carrito.forEach(item => {
-      resumenHTML += `<p>${item.tipo} (x${item.cantidad})</p>`;
-      totalPedido += item.precio * item.cantidad;
+      const form = document.getElementById("pedido-form");
+      const popup = document.getElementById("gracias-popup");
+
+      let resumenHTML = "";
+      let cantidadTotal = 0;
+      let precioTotal = 0;
+
+      carrito.forEach(item => {
+        resumenHTML += `${item.nombre} (x${item.cantidad})<br>`;
+        cantidadTotal += item.cantidad;
+        precioTotal += item.precio * item.cantidad;
+      });
+
+      resumenDiv.innerHTML = resumenHTML || "<p>No hay donas seleccionadas.</p>";
+      cantidadLabel.textContent = "Total de donas: " + cantidadTotal;
+      precioLabel.textContent = "Precio final: $" + precioTotal.toFixed(2);
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+
+        const cliente = document.getElementById("cliente").value;
+        const sucursal = document.getElementById("sucursal").value;
+        const fecha_hora = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+        const dona_texto = carrito.map(item => `${item.nombre} (x${item.cantidad})`).join(', ');
+
+        const formData = new FormData();
+        formData.append("cliente", cliente);
+        formData.append("dona", dona_texto);
+        formData.append("sucursal", sucursal);
+        formData.append("medio_entrega", "en tienda");
+        formData.append("cantidad", cantidadTotal);
+        formData.append("precio_total", precioTotal.toFixed(2));
+        formData.append("fecha_hora", fecha_hora);
+
+        fetch("../../Back-end/pedido/insertar_pedido.php", {
+          method: "POST",
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            popup.style.display = "flex";
+            form.reset();
+            sessionStorage.removeItem("carritoDonas");
+          } else {
+            alert("Error al guardar pedido: " + data.message);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert("No se pudo conectar con el servidor.");
+        });
+      });
     });
-
-    resumen.innerHTML = resumenHTML + `<p class="total">Total: $${totalPedido.toFixed(2)}</p>`;
-
-    document.getElementById("productos-json").value = JSON.stringify(carrito);
-    document.getElementById("precio-total-form").value = totalPedido.toFixed(2);
-
   </script>
-
 </body>
 </html>

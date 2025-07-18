@@ -1,217 +1,152 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consultar Pedidos | Donuty Pop</title>
-  <link rel="stylesheet" href="../css/estilo.css" />
+  <meta charset="UTF-8">
+  <title>Pedidos Registrados</title>
+  <link rel="stylesheet" href="../css/estilo.css">
   <style>
     body {
       font-family: 'Nunito', sans-serif;
-      padding: 40px;
       background-color: #fff7fb;
+      margin: 0;
+      padding: 40px;
+      color: #333;
     }
     h2 {
-      color: #d8185b;
       text-align: center;
+      color: #d8185b;
+      font-size: 2rem;
       margin-bottom: 30px;
     }
-    .formulario-pedido {
-      max-width: 800px;
-      margin: 0 auto 40px;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    .formulario-pedido label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    .formulario-pedido input,
-    .formulario-pedido select {
+    table {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 2px solid #f1b9d5;
-      border-radius: 12px;
-    }
-    .formulario-pedido button {
-      margin-top: 20px;
-      background-color: #f72c73;
-      color: white;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .tabla-pedidos {
-      width: 100%;
+      max-width: 1100px;
+      margin: auto;
       border-collapse: collapse;
-      margin-top: 20px;
-      background-color: white;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background-color: #fff;
       border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
       overflow: hidden;
     }
-    .tabla-pedidos th, .tabla-pedidos td {
-      padding: 15px;
+    th, td {
+      padding: 14px 18px;
       border-bottom: 1px solid #eee;
-      text-align: center;
+      text-align: left;
+      font-size: 0.95rem;
     }
-    .tabla-pedidos th {
+    thead {
       background-color: #f72c73;
       color: white;
     }
-    .tabla-pedidos td a img {
+    tbody tr:hover {
+      background-color: #fff0f6;
+    }
+    td img {
       width: 24px;
       height: 24px;
       cursor: pointer;
     }
+    .acciones {
+      text-align: center;
+    }
+    .volver-btn {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .volver-btn a {
+      padding: 10px 20px;
+      background-color: #f72c73;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    .volver-btn a:hover {
+      background-color: #d8185b;
+    }
   </style>
 </head>
 <body>
-<!-- Header Donuty Pop -->
-  <section id="menu">
-    <div class="contenedor">
-      <div class="menu-izq">
-        <a href="../public/index.html">
-          <img src="../assets/Iconos/donutyPopLogo.png" alt="DonutyPop-Logo" />
-        </a>
-      </div>
-      <div class="menu-der">
-        <a href="../public/index.html">Regresar</a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- 🔄 Bloque 1: Registrar pedido -->
-  <section class="formulario-pedido">
-    <h2>Registrar Pedido</h2>
-    <form action="../../Back-end/pedido/insertar_pedido.php" method="POST">
-      <label>Empleado:</label>
-      <select name="id_empleado" required>
-        <!-- Opciones generadas desde PHP -->
-        <?php
-        include("../backend/conexion.php");
-        $empleados = $conn->query("SELECT id_empleado, nombre_empleado FROM empleado");
-        while ($emp = $empleados->fetch_assoc()):
-        ?>
-          <option value="<?= $emp['id_empleado'] ?>"><?= $emp['nombre_empleado'] ?></option>
-        <?php endwhile; ?>
-      </select>
-
-      <label>Cliente:</label>
-      <select name="id_cliente" required>
-        <?php
-        $clientes = $conn->query("SELECT id_cliente, nombre_completo FROM cliente");
-        while ($cli = $clientes->fetch_assoc()):
-        ?>
-          <option value="<?= $cli['id_cliente'] ?>"><?= $cli['nombre_completo'] ?></option>
-        <?php endwhile; ?>
-      </select>
-
-      <label>Dona:</label>
-      <select name="id_donas" required>
-        <?php
-        $donas = $conn->query("SELECT id_donas, tipo FROM donas");
-        while ($don = $donas->fetch_assoc()):
-        ?>
-          <option value="<?= $don['id_donas'] ?>"><?= $don['tipo'] ?></option>
-        <?php endwhile; ?>
-      </select>
-
-      <label>Sucursal:</label>
-      <select name="id_sucursal" required>
-        <?php
-        $sucursales = $conn->query("SELECT id_sucursal, direccion FROM sucursal");
-        while ($suc = $sucursales->fetch_assoc()):
-        ?>
-          <option value="<?= $suc['id_sucursal'] ?>"><?= $suc['direccion'] ?></option>
-        <?php endwhile; ?>
-      </select>
-
-      <label>Medio de Entrega:</label>
-      <select name="medio_entrega" required>
-        <option value="tienda">Tienda</option>
-        <option value="domicilio">Domicilio</option>
-      </select>
-
-      <label>Tipo de Pago:</label>
-      <select name="tipo_pago" required>
-        <option value="efectivo">Efectivo</option>
-        <option value="tarjeta">Tarjeta</option>
-      </select>
-
-      <label>Cantidad:</label>
-      <input type="number" name="cantidad" min="1" required>
-
-      <label>Precio total (MXN):</label>
-      <input type="number" name="precio_total" min="0" step="0.01" required>
-
-      <label>Fecha y hora:</label>
-      <input type="datetime-local" name="fecha_hora" required>
-
-      <button type="submit">Registrar Pedido</button>
-    </form>
-  </section>
-
-  <!-- 📄 Bloque 2: Tabla de pedidos -->
-<section>
   <h2>Pedidos Registrados</h2>
-  <table class="tabla-pedidos">
+  <table>
     <thead>
       <tr>
-        <th>ID</th>
+        <th># Pedido</th>
         <th>Cliente</th>
-        <th>Empleado</th>
         <th>Dona</th>
         <th>Sucursal</th>
-        <th>Cantidad</th>
         <th>Entrega</th>
-        <th>Pago</th>
+        <th>Cantidad</th>
         <th>Total</th>
         <th>Fecha</th>
-        <th>Editar</th>
-        <th>Eliminar</th>
+        <th class="acciones">Eliminar</th>
       </tr>
     </thead>
-    <tbody>
-      <?php
-        include("../backend/conexion.php");
-        $sql = "SELECT o.*, c.nombre_completo, e.nombre_empleado, d.tipo, s.direccion
-                FROM ordena o
-                JOIN cliente c ON o.id_cliente = c.id_cliente
-                JOIN empleado e ON o.id_empleado = e.id_empleado
-                JOIN donas d ON o.id_donas = d.id_donas
-                JOIN sucursal s ON o.id_sucursal = s.id_sucursal";
-
-        $resultado = $conn->query($sql);
-        while($row = $resultado->fetch_assoc()):
-      ?>
-      <tr>
-        <td><?= $row['id_orden'] ?></td>
-        <td><?= $row['nombre_completo'] ?></td>
-        <td><?= $row['nombre_empleado'] ?></td>
-        <td><?= $row['tipo'] ?></td>
-        <td><?= $row['direccion'] ?></td>
-        <td><?= $row['cantidad'] ?></td>
-        <td><?= ucfirst($row['medio_entrega']) ?></td>
-        <td><?= ucfirst($row['tipo_pago']) ?></td>
-        <td>$<?= number_format($row['precio_total'], 2) ?></td>
-        <td><?= $row['fecha_hora'] ?></td>
-        <td><a href="editar_pedido.php?id=<?= $row['id_orden'] ?>"><img src="../assets/Iconos/editar.png" alt="Editar"></a></td>
-        <td><a href="eliminar_pedido.php?id=<?= $row['id_orden'] ?>" onclick="return confirm('¿Eliminar este pedido?')"><img src="../assets/Iconos/eliminar.png" alt="Eliminar"></a></td>
-      </tr>
-      <?php endwhile; ?>
+    <tbody id="tabla-pedidos">
+      <!-- Se insertan pedidos dinámicamente -->
     </tbody>
   </table>
-</section>
 
+  <div class="volver-btn">
+    <a href="../index.html">Volver al Inicio</a>
+  </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabla = document.getElementById("tabla-pedidos");
+
+      fetch("../../Back-end/pedido/consultar_pedido.php")
+        .then(res => res.json())
+        .then(pedidos => {
+          tabla.innerHTML = "";
+
+          pedidos.forEach(p => {
+            const fila = document.createElement("tr");
+            fila.setAttribute("data-id", p.id_orden);
+
+            fila.innerHTML = `
+              <td>${p.id_orden}</td>
+              <td>${p.cliente}</td>
+              <td>${p.dona}</td>
+              <td>${p.sucursal}</td>
+              <td>${p.medio_entrega}</td>
+              <td>${p.cantidad}</td>
+              <td>$${p.precio_total.toFixed(2)}</td>
+              <td>${p.fecha_hora}</td>
+              <td class="acciones">
+                <img src="../img/borr.png" alt="Eliminar" onclick="eliminarPedido(${p.id_orden}, this)">
+              </td>
+            `;
+            tabla.appendChild(fila);
+          });
+        })
+        .catch(err => {
+          console.error("Error al cargar pedidos:", err);
+          tabla.innerHTML = "<tr><td colspan='9'>No se pudieron cargar los pedidos.</td></tr>";
+        });
+    });
+
+    function eliminarPedido(id, btn) {
+      if (confirm("¿Estás seguro de que quieres eliminar este pedido?")) {
+        fetch(`../../Back-end/pedido/eliminar-pedido.php?id=${id}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              // Eliminar fila sin recargar
+              const fila = btn.closest("tr");
+              fila.remove();
+            } else {
+              alert("Error al eliminar: " + data.message);
+            }
+          })
+          .catch(err => {
+            console.error("Error al eliminar:", err);
+            alert("No se pudo eliminar el pedido.");
+          });
+      }
+    }
+  </script>
 </body>
 </html>
